@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Detail</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#ffffff;color:#0a0a0a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial}
+    .wrap{width:92%;max-width:1000px;margin:24px auto;background:#ffffff;border:1px solid #d1d5db;border-radius:10px}
+    .top{display:flex;gap:10px;padding:12px;border-bottom:1px solid #d1d5db}
+    .btn{appearance:none;border:1px solid #16a34a;background:#ffffff;color:#065f46;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600;cursor:pointer;font-size:14px}
+    .btn.primary{background:#16a34a;border-color:#16a34a;color:#ffffff}
+    .content{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px}
+    @media (max-width: 800px){.content{grid-template-columns:1fr}}
+    .avatar img{width:100%;display:block;border-radius:10px;border:1px solid #d1d5db}
+    .title{font-size:20px;font-weight:700;color:#065f46;margin:0 0 6px}
+    .meta{color:#065f46;font-size:13px;opacity:.85}
+    .posts{padding:0 16px 16px}
+    .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+    .card{background:#ffffff;border:1px solid #d1d5db;border-radius:10px;overflow:hidden}
+    .video video{width:100%;display:block;border-bottom:1px solid #d1d5db}
+    .body{padding:10px}
+    .post-title{font-weight:700;color:#065f46;margin:0 0 4px}
+    .row-actions{margin-top:8px;display:flex;gap:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="btn" href="{% url 'list-user' %}">Back to Users</a>
+    </div>
+    <div class="content">
+      <div class="avatar">
+        {% if users.image %}
+          <img src="{{ users.image.url }}" alt="{{ users.first_name }}">
+        {% endif %}
+      </div>
+      <div>
+        <h1 class="title">{{ users.first_name }} {{ usesr.last_name }}</h1>
+        <div class="meta">Email: {{ users.email }}</div>
+        <div class="meta">Age: {{ users.age }}</div>
+      </div>
+    </div>
+    <div class="posts">
+      <div class="meta" style="margin:0 0 8px">Posts</div>
+      <div class="list">
+        {% for post in posts %}
+        <div class="card">
+          <div class="video">
+            <video controls>
+              <source src="{{ post.video.url }}" type="video/mp4">
+            </video>
+          </div>
+          <div class="body">
+            <div class="post-title">{{ post.title }}</div>
+            <div class="meta">{{ post.description }}</div>
+            <div class="meta">{{ post.created_at }}</div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="meta">У пользователя нету видео.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>
